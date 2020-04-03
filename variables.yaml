@@ -1,0 +1,8 @@
+# Jenkins default vars
+build_no: "1.12"
+
+# Artifact Info
+timestamp: "{{ lookup('pipe', 'date +%Y%m%dT%H%M') }}"
+artifact_folder: ~/test-dir
+artifact_archive: "{{ artifact_folder }}_{{ timestamp }}.tgz"
+artifact_filename: "~/sample_{{ build_no}}.war"

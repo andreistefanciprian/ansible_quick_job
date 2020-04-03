@@ -1,0 +1,22 @@
+-
+  name: WV playbook for nexus download
+
+  hosts: ansible-t1
+
+# in case it needs to be downloaded locally
+#  hosts: localhost
+#  connection: local
+
+  pre_tasks:
+    - include_vars: variables.yaml
+
+  tasks:
+    - name: Download war artifact from a private repository requiring authentication
+      maven_artifact:
+        group_id: com.company
+        artifact_id: library-name
+        extension: war
+        repository_url: 'https://repo.company.com/maven'
+        username: user
+        password: pass
+        dest: /tmp/library-name-latest.war

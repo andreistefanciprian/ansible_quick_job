@@ -1,0 +1,41 @@
+-
+  name: WV playbook
+
+  hosts: ansible-t1
+
+  pre_tasks:
+    - include_vars: variables.yaml
+
+#  vars_files: vault.yaml
+
+  tasks:
+
+    - name: Create a directory if it does not exist
+      file:
+        path: "{{ artifact_folder }}"
+        state: directory
+        mode: '0775'
+
+    - name: Unarchive war file
+      unarchive:
+        src: "{{ artifact_filename }}"
+        dest: "{{ artifact_folder }}"
+        remote_src: yes
+
+    - name: Archive folder content
+      archive:
+        path: "{{ artifact_folder }}"
+        dest: "{{ artifact_archive }}"
+
+    - name: List dir content
+      command: "ls -larth {{ artifact_folder }}"
+      register: response
+
+    - name: "Print result"
+      debug:
+        var: response.stdout_lines
+
+    - name: Recursively remove directory
+      file:
+        path: "{{ artifact_folder }}"
+        state: absent

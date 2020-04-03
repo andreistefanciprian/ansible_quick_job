@@ -1,0 +1,6 @@
+[targets]
+ansible-t1
+ansible-t2
+
+[control]
+ansible-controller ansible_connection=local
