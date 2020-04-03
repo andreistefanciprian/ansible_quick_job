@@ -3,7 +3,7 @@
 # execute playbook
 ansible-playbook -i inventory.txt playbook-wv.yaml
 
-# execute playbook and pass Jenkins build number var into Ansible playbook
+# execute playbook and pass Jenkins $BUILD_NUMBER var into Ansible playbook as build_no var
 ansible-playbook -i inventory.txt --extra-vars '{"build_no":"1.13"}' playbook-wv.yaml
 # or
 BUILD_NUMBER=1.13
