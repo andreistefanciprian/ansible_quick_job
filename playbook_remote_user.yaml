@@ -1,0 +1,33 @@
+-
+  name: Execute playbook or task as specific user
+
+  hosts: ansible-t1
+
+  pre_tasks:
+    - include_vars: variables.yaml
+
+# execute playbook as different user than Ansible ssh user
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html#hosts-and-users
+  become: yes
+  become_user: nodejsapp
+
+#  vars_files: vault.yaml
+
+  tasks:
+
+    - name: Touch a file, using symbolic modes to set the permissions (equivalent to 0644)
+#      or execute task as user
+#      become: yes
+#      become_user: nodejsapp
+      file:
+        path: ~/foo-{{ timestamp }}.conf
+        state: touch
+        mode: u=rwx,g=rwx,o=rx
+
+    - name: List file
+      command: "ls -l ~/"
+      register: response
+
+    - name: "Print result"
+      debug:
+        var: response.stdout_lines
